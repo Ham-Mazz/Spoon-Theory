@@ -6,7 +6,7 @@ signal out_of_spoons
 signal not_engouh_spoons
 
 var actions_taken = 0
-var max_spoons = 35
+const max_spoons = 35
 var overspent_spoons = 0
 var current_spoons = 0
 var max_dif_spoons = 0
