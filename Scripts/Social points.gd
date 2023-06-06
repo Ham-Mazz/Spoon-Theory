@@ -33,3 +33,5 @@ func update_social_points(action_result):
 				social_points -= social_points_change
 		if social_points <= 5:
 			emit_signal("low_points")
+	else:
+		pass

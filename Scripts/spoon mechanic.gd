@@ -17,9 +17,7 @@ func _ready():
 	
 func start_spoons(difficulty):
 	current_spoons = max_spoons - (difficulty - 1) * 5
-	if overspent_spoons > 0:
-		current_spoons -= overspent_spoons
-		overspent_spoons = 0 
+	
 
 func perform_action(cost, spoons):
 	spoons = current_spoons
@@ -35,17 +33,17 @@ func perform_action(cost, spoons):
 		if spoons == -5:
 			emit_signal('out_of_spoons')
 		current_spoons = spoons
-		return {"success": true, "overspent": true, "current_spoons": current_spoons,"reason": null }
+		return {"success": true, "overspent": true, "current_spoons": current_spoons,"reason": "action_performed-overspent" }
 	# Case 3: not engouh spoons
 	elif (cost > 0 and spoons == -5) or (cost > 0 and cost - spoons < -5):
-		emit_signal('not_engouh_spoons')
+		emit_signal('not_enough_spoons')
 		current_spoons = spoons
 		return {"success": false, "overspent": false, "current_spoons": current_spoons, "reason": "not_enough_spoons"}
 	# Case 4: Perform action normally
 	else:
 		spoons -= cost
 		current_spoons = spoons
-		return {"success": true, "overspent": false, "current_spoons": current_spoons, "reason": null}
+		return {"success": true, "overspent": false, "current_spoons": current_spoons, "reason": "action_performed"}
 
 func actions_counter(cost):
 	var result = perform_action(cost, current_spoons)
@@ -56,4 +54,7 @@ func actions_counter(cost):
 func reset_new_day():
 	current_spoons = start_spoons(1)
 	actions_taken = 0
+	if overspent_spoons > 0:
+		current_spoons -= overspent_spoons
+		overspent_spoons = 0 
 	
